@@ -1,0 +1,9 @@
+
+Options -Indexes
+
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{THE_REQUEST} !-f
+RewriteCond %{THE_REQUEST} !-d
+RewriteRule ^(.*)$ public/index.php [QSA]

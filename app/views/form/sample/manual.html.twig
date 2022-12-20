@@ -1,0 +1,184 @@
+<h4 class="mb-3">Contagem dos táxon</h4>
+<div class="my-4">
+    <h4 class="mb-3">Táxon</h4>
+    <div class="row g-3">
+        <div class="col">
+            <div class="row mb-3">
+                <label for="measure" class="col-md-4 col-form-label">Unidade de medida: </label>
+                <div class="col-md-6">
+                    <select id="measure" name="measure" class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="updateMeasure(this)">
+                        <option value="-----" {% if not sample.measureUnit %}selected{% endif %}>----------</option>
+{% if taxonUnits %}
+    {% for taxon in taxonUnits %}
+                        <option value="{{ taxon.sampleId }}" {% if sample.id == taxon.sampleId %}selected{% endif %}>{{ taxon.measure|raw }} ({{ taxon.unit|raw }})</option>
+    {% endfor %}
+{% endif %}
+                    </select>
+                    <datalist id="taxonUnits">
+                        <option label="----------" value="-----">
+{% if taxonUnits %}
+    {% for taxon in taxonUnits %}
+                        <option label="{{ taxon.unit|raw }}" value="{{ taxon.sampleId }}">
+    {% endfor %}
+{% endif %}
+                    </datalist>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row mb-3">
+                <label for="newMeasure" class="col-md-1 col-form-label">Outro: </label>
+                <div class="col-md-8">
+                    {% set measureUnit = sample.measureUnit.measure  ~ ', ' ~ sample.measureUnit.unit %}
+                    <input type="text" value="{{ measureUnit|raw }}" class="form-control" onkeyup="updateMeasure(this)" name="newMeasure" id="newMeasure" placeholder="Nome, unidade. Ex: 'Densidade, cél/L'" maxlength="30">
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Táxon</th>
+                <th scope="col">Quantidade média (<span id="labelUnidadeFitoplanctonMedia">
+{% if sample.measureUnit %}
+                        {{ sample.measureUnit.unit|raw }}
+{% else %}
+                        -----
+{% endif %}
+                    </span>)
+                </th>
+                <th scope="col">Quantidade máxima  (<span id="labelUnidadeFitoplanctonMaxima">
+{% if sample.measureUnit %}
+                        {{ sample.measureUnit.unit|raw }}
+{% else %}
+                        -----
+{% endif %}
+                    </span>)
+                </th>
+                <th scope="col">Imagem (opcional)</th>
+                <th scope="col">Excluir</th>
+            </tr>
+        </thead>
+        <tbody id="fitoplancton">
+{% if sample.fitoplancton %}
+{% for taxon in sample.fitoplancton %}
+            <tr>
+                <td class=col><input type="text" value="{{ taxon.name|raw }}" maxlength="50" name="currentTaxon_{{ taxon.id }}" id="currentTaxon_{{ taxon.id }}" placeholder="Nome" list="taxon" required></td>
+                <td><input type="number" value="{{ taxon.mean|raw }}" step="0.01" min=0 max=99999999.99 placeholder="Média" name="currentMean_{{ taxon.id }}" id="currentMean_{{ taxon.id }}" required></td>
+                <td><input type="number" value="{{ taxon.max|raw }}" step="0.01" min=0 max=99999999.99 placeholder="Máximo" name="currentMax_{{ taxon.id }}" id="currentMax_{{ taxon.id }}" required></td>
+                <td>
+{% if taxon.image %}
+
+                    <div class="d-flex justify-content-start">
+                        <div class="position-relative">
+                            <img src="{{ taxon.image }}" class="mx-auto" alt="Foto do local" height="150px" width="200px">
+                            <div class="position-absolute top-0 end-0 btn-group">
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opções 
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateImage_{{ taxon.id }}">
+                                            Alterar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteImage_{{ taxon.id }}">
+                                            Excluir
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+{% else %}
+                    <input type="file" name="currentImage_{{ taxon.id }}" id="currentImage_{{ taxon.id }}" accept="image/*" onchange="validateSize(this, 5)">
+{% endif %} {# end of image #}
+                </td>
+                <td>
+                    <input name="deleteFitoplancton_{{ taxon.id }}" type="checkbox" class="form-check-input mt-0" value="" aria-label="Excluir dados deste taxon">
+                </td>
+            </tr>
+{% endfor %} {# end of fitoplancton list #}
+{% else %} {# If no fitoplancton sample #}
+            <tr>
+                <td class=col><input type="text" maxlength="50" name="taxon_0" id="taxon_0" placeholder="Nome" list="taxon" required></td>
+                <td><input type="number" step="0.01" min=0 max=99999999.99 placeholder="Média" name="mean_0" id="mean_0" required></td>
+                <td><input type="number" step="0.01" min=0 max=99999999.99 placeholder="Máximo" name="max_0" id="max_0" required></td>
+                <td><input type="file" name="image_0" id="image_0" accept="image/*" onchange="validateSize(this, 5)"></td>
+                <td><button class="invisible">X</button></td>
+            </tr>
+{% endif %}
+        </tbody>
+    </table>
+    <datalist id="taxon">
+{% if taxon %}
+    {% for name in taxon %}
+        <option value="{{ name|raw }}">
+    {% endfor %}
+{% endif %}
+
+    </datalist>
+    <button type="button" class="btn btn-primary" onclick="addInput('fitoplancton')">Adicionar táxon</button>
+</div>
+<hr>
+<div class="my-4">
+    <h4 class="mb-3">
+        Variáveis auxiliares (opcional)
+    </h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Unidade de medida</th>
+                <th scope="col">Excluir</th>
+            </tr>
+        </thead>
+        <tbody id="auxiliar">
+{% if sample.context %}
+{% for context in sample.context %}
+            <tr>
+                <td>
+                    <input type="text" value="{{ context.name|raw }}" name="currentName_{{ context.id }}" id="currentName_{{ context.id }}" list="dataName" placeholder="Nome. Ex: salinidade da água">
+                </td>
+                <td>
+                    <input type="text" value="{{ context.value|raw }}" name="currentValue_{{ context.id }}" id="currentValue_{{ context.id }}" placeholder="Valor encontrado. Ex: 35,3">
+                </td>
+                <td>
+                    <input type="text" name="currentUnit_{{ context.id }}" id="currentUnit_{{ context.id }}" list="dataUnit" value="{{ context.measure|raw }}" placeholder="Unidade de medida. Ex: g/kg">
+                </td>
+                <td>
+                    <input name="deleteContext_{{ context.id }}" id="deleteContext_{{ context.id }}" type="checkbox" class="form-check-input mt-0" value="" aria-label="Excluir dados deste taxon">
+                </td>
+            </tr>
+{% endfor %}
+{% endif %}
+        </tbody>
+    </table>
+    <datalist id="dataName">
+{% if dataNames %}
+{% for name in dataNames %}
+        <option value="{{ name|raw }}">
+{% endfor %}
+{% endif %}
+    </datalist>
+    <datalist id="dataUnit">
+        
+{% if dataUnits %}
+{% for unit in dataUnits %}
+        <option value="{{ unit|raw }}">
+{% endfor %}
+{% endif %}
+
+    </datalist>
+    <button type="button" class="btn btn-primary" onclick="addInput('auxiliar')">
+        Adicionar variável auxiliar
+    </button>
+
+    <hr class="my-4 my-4">
+    <button id="submitButton" class="btn btn-primary btn-lg" type="submit" onclick="beforeSubmit();">
+        <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        <a id="submitButtonText">Salvar coleta</a>
+    </button>
+</div>

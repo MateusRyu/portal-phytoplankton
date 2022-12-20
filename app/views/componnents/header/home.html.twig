@@ -1,0 +1,37 @@
+<header>
+  <nav class="navbar navbar-light  bg-primary flex-md-nowrap p-0 shadow px-4 py-1">
+    <div class="pl-4 border-bottom mr-0" style="margin-top: .7em;">
+      <a class="navbar-brand col-sm-3 col-md-3 mr-0" href="{{ SITE_URL }}">
+        {{ SITE_NAME }}
+      </a>
+    </div>
+    <div class="w-100 d-flex justify-content-start">
+      <ul class="navbar-nav nav-tabs w-100 justify-content-end mr-2 d-flex flex-row" style="">
+        <li class="nav-item mx-1">
+          {% set text = 'página inicial' %}
+          {% if homeActivated == true %}
+            <a class="nav-link px-2 active" aria-current="page" href="#">{{ text|capitalize }}</a>
+          {% else %}
+            <a class="nav-link px-2" href="{{ SITE_URL }}">{{ text|capitalize }}</a>
+          {% endif %}
+        </li>
+        <li class="nav-item mx-1">
+          {% set text = 'contribua' %}
+          {% if loginActivated == true %}
+            <a class="nav-link px-2 active" aria-current="page" href="#">{{ text|capitalize }}</a>
+          {% else %}
+            <a class="nav-link px-2" href="{{ SITE_URL }}/login">{{ text|capitalize }}</a>
+          {% endif %}
+        </li>
+        <li class="nav-item mx-1">
+          {% set text = 'Sobre' %}
+          {% if aboutActivated == true %}
+            <a class="nav-link px-2 active" aria-current="page" href="#">{{ text|capitalize }}</a>
+          {% else %}
+            <a class="nav-link px-2" href="{{ SITE_URL }}/sobre">{{ text|capitalize }}</a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,35 @@
+<nav class="bg-light col border-end min-vh-100">
+    <h6 class="d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Registros salvos</span>
+        <a class="d-flex align-items-center text-muted" href="{{ SITE_URL }}/registros/novo">
+            <span data-feather="plus-circle"></span>
+        </a>
+    </h6>
+    <ul class="nav flex-column ml-1">
+        {% for registerNav in registerNavData %}        
+            {{ include('patterns/registerNavItem.html.twig') }}
+        {% endfor %}
+        {% if role == 'curador' %}
+        <li class="nav-item ml-2">
+            {% set class = "nav-link d-flex justify-content-between text-dark fw-lighter d-flex justify-content-between" %}
+            <a class="{{ class }}" href="{{ SITE_URL }}/curadoria">
+                <div>
+                    <i data-feather="inbox"></i>
+                    &nbsp;&nbsp;Curadoria
+                </div>
+            </a>
+        </li>
+        {% endif %}
+        {% if role == 'administrador' %}
+        <li class="nav-item ml-2">
+            {% set class = "nav-link d-flex justify-content-between text-dark fw-lighter d-flex justify-content-between" %}
+            <a class="{{ class }}" href="{{ SITE_URL }}/usuarios">
+                <div>
+                    <i data-feather="users"></i>
+                    &nbsp;&nbsp;Usuarios
+                </div>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

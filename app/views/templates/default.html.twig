@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        {% include('componnents/head/home.html.twig') %}
+        <title>
+          {{ title|capitalize }}{% if title == true %} - {% endif %}{{SITE_NAME|title }}
+        </title>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+      {% include 'componnents/header/home.html.twig' %}
+      <main id="content">
+        {% block content %}{% endblock %}
+      </main>
+      {% block script %}{% endblock %}
+    </body>
+</html>

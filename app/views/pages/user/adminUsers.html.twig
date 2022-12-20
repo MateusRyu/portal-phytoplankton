@@ -1,0 +1,76 @@
+{% extends "templates/registrationForm.html.twig" %}
+
+{% set title = 'Gerenciador de usuários'|capitalize %}
+
+{% block main %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Gerenciador de usuários</h1>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Cargo</th>
+            <th scope="col" colspan="2">Opções</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for user in users %}
+        <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <!-- Button trigger modal -->
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{ user.id }}">
+                    <i data-feather="edit" style="height:16px;"></i>
+                    Alterar cargo
+                </a>
+            </td>
+            <td>
+                <a href="{{ SITE_URL }}/usuario/{{ user.id }}/banir">
+                    <i data-feather="user-x" style="height:16px;"></i>
+                    banir
+                </a>
+            </td>
+        </tr>
+        
+        <div class="modal fade" id="modal{{ user.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Alterar cargo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li><strong>Nome do usuário:</strong> {{ user.name }}</li>
+                            <li><strong>E-mail:</strong> {{ user.email }}</li>
+                            <li><strong>Cargo atual:</strong> {{ user.role }}</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{{ SITE_URL }}/usuario/{{ user.id }}/alterar-cargo" method="post">
+                            <select class="form-select" aria-label="Selecionar novo cargo" name="role">
+                                <option selected>Selecionar novo cargo</option>
+{% for role in roles %}
+                                <option value="{{ role }}">{{ role | capitalize }}</option>
+{% endfor %}
+                            </select>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                            <button type="submit" class="btn btn-primary">Salvar mudança</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

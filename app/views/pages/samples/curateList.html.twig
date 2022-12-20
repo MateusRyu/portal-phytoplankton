@@ -1,0 +1,194 @@
+{% extends "templates/registrationForm.html.twig" %}
+
+{% set title = 'Curadoria'|capitalize %}
+{% set curateActived = 'active' %}
+
+{% block main %}
+
+{# Start header #}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Curadoria</h1>
+</div>
+
+{# End header #}
+
+<div  class="album py-1 bg-light">
+  <div class="container">
+    <div class="row">
+
+{# Start list #}
+
+{% if samples %}  
+      <div class="accordion" id="samples">
+
+{% for sample in samples %}
+        <div class="accordion-item ">
+          <h2 class="accordion-header" id="heading{{ sample.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ sample.id }}" aria-expanded="false" aria-controls="collapse{{ sample.id }}">
+              {{ sample.register }}: {{ sample.name }} (enviado em: {{ sample.editedAt }})
+            </button>
+          </h2>
+          <div id="collapse{{ sample.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ sample.id }}" data-bs-parent="#samples">
+
+          
+            <div class="accordion-body pb-0">
+              <div class="d-flex gap-4">
+                <ul class="p-4 col-5 bg-light border rounded">
+                  <h3 class="h5">Dados básicos</h3>
+
+{% if sample.cover %}
+                  <img src="{{ sample.cover }}" height="30" class="img-thumbnail my-2" alt="capa"/>
+{% endif %}
+
+{% set itemStyle = 'border-top p-1' %}
+                  <li class="{{ itemStyle }}"><strong>Longitude:</strong> {{ sample.longitude }}</li>
+                  <li class="{{ itemStyle }}"><strong>Latitude:</strong> {{ sample.latitude }}</li>
+                  <li class="{{ itemStyle }}"><strong>Profundidade</strong> {{ sample.depth }}</li>
+                  <li class="{{ itemStyle }}"><strong>Data de coleta:</strong> {{ sample.colectedAt }}</li>
+                  <li class="{{ itemStyle }}"><strong>Autor:</strong> {{ sample.author }} (ID: {{ sample.authorId }})</li>
+                  <li class="{{ itemStyle }}"><strong>Referência:</strong> {{ sample.reference }}</li>
+
+                  <li class="{{ itemStyle }}"><strong>Cidade:</strong> {{ sample.city }}</li>
+                  <li class="{{ itemStyle }}"><strong>Estado:</strong> {{ sample.state }}</li>
+                  <li class="{{ itemStyle }}"><strong>País:</strong> {{ sample.country }}</li>
+                </ul>
+                <div class="d-flex flex-column col-10 gap-3 mb-3">
+{% set dataStyle = 'p-4 col-8 bg-light border rounded' %}
+                  <div class="{{ dataStyle}}">
+                    <h3 class="p-2 h5">Contagem de táxons</h3>
+
+{# Carousel #}
+{% if sample.images %}
+                    <div id="fitoplanctonsImages{{ sample.id }}" class="carousel slide bg-warning" data-bs-ride="false">
+                      <div class="carousel-indicators">
+{% for image in sample.images %}
+{% if loop.first %}
+                        <button type="button" data-bs-target="#fitoplanctonsImages{{ sample.id }}" data-bs-slide-to="{{ loop.index0 }}" class="active" aria-current="true" aria-label="Slide {{ loop.index }}"></button>
+{% else %}
+                        <button type="button" data-bs-target="#fitoplanctonsImages{{ sample.id }}" data-bs-slide-to="{{ loop.index0 }}" aria-label="Slide {{ loop.index }}"></button>
+{% endif %}
+{% endfor %}
+                      </div>
+                      <div class="carousel-inner">
+{% for image in sample.images %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                          <img src="{{ image.path }}" class="d-block w-100" alt="...">
+                          <div class="carousel-caption d-none d-md-block">
+                            <p class="bg-black bg-opacity-25">{{ image.name }}</p>
+                          </div>
+                        </div>
+{% endfor %}
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#fitoplanctonsImages{{ sample.id }}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#fitoplanctonsImages{{ sample.id }}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>  
+{% endif %}
+{# End carousel #}
+                    <table class="p-2 mx-2 border-top border-1 table caption-top table-striped-columns">
+                      <caption>Unidade de medida: {{ sample.measure }}</caption>
+                      <thead>
+                        <tr>
+                          <td scope="col">Táxon</td>
+                          <th scope="col">Média</th>
+                          <th scope="col">Máxima</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+{% for taxon in sample.fitoplancton %}
+                        <tr>
+                          <th scope="row">{{ taxon.name }}</th>
+                          <td>{{ taxon.mean }}</td>
+                          <td>{{ taxon.max }}</td>
+                        </tr>
+{% endfor %}  
+                      </tbody>
+                    </table>
+                  </div>
+{% if sample.context %}             
+                  <div class="{{ dataStyle}}">
+                    <ul class="p-2">
+                      <h5>Dados auxiliares</h5>
+{% for info in sample.context %}
+                    <li>
+                      <strong>
+                        {{ info.name }}:
+                      </strong> 
+                      {{ info.value }} {% if info.measure %}({{ info.measure }}){% endif %}
+                    </li>
+{% endfor %}
+                    </ul>
+                  </div>
+{% endif %}
+                </div>
+              </div>
+            </div>
+{# Acordion footer #}
+            <div>
+              <div class="d-flex gap-4 mb-2 mx-4">
+                <button type="button" class="btn btn-danger w-50" data-bs-toggle="modal" data-bs-target="#reproveSample{{ sample.id }}">
+                  Reprovar
+                </button>
+                <button type="button" class="btn btn-success w-50" data-bs-toggle="modal" data-bs-target="#aproveSample{{ sample.id }}">
+                  Aprovar
+                </button>
+              </div>
+
+              <div class="modal fade" id="reproveSample{{ sample.id }}" tabindex="-1" aria-labelledby="reproveSample{{ sample.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-4" id="reproveSample{{ sample.id }}">Reprovar amostra</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                      {% include 'form/sample/disapproveSample.html.twig' %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="aproveSample{{ sample.id }}" tabindex="-1" aria-labelledby="aproveSample{{ sample.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-4" id="aproveSample{{ sample.id }}">Aprovar amostra</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                      {% include 'form/sample/approveSample.html.twig' %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+{# End footer #}
+          </div>
+        </div>
+{% endfor %}
+      </div>
+    </div>
+  </div>    
+</div>
+
+<datalist id="commonAnswers">
+  <option value="Conteúdo inapropriado">
+  <option value="Dados incoerentes">
+  <option value="Dados incompletos">
+</datalist>
+{% else %}      
+
+      <div class="bg-white p-4 rounded">
+        <p class="">Não há coletas para curar.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

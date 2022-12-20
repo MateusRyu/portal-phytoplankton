@@ -1,0 +1,49 @@
+{% extends "templates/registers.html.twig" %}
+
+{% set title = 'Gerenciador de registro de ocorrência'|capitalize %}
+{% set projetosActived = 'active' %}
+
+{% block main %}
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Gerenciador de registro de ocorrência</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        {% set text = 'novo registro <span data-feather="plus-circle"></span>'|capitalize %}
+        {% set link = SITE_URL ~ '/registros/novo' %}
+        {{ include('componnents/buttons/linkPrimary.html.twig') }}
+      </div>
+    </div>
+  </div>
+
+  <h3 class="h6 text-muted border-bottom">Recentes</h3>
+  <div class="album py-1 bg-light">
+    <div class="container">
+      <div class="row">
+      {% if recents %}
+        {% for register in recents %}        
+          {{ include('patterns/registerCard.html.twig') }}
+        {% endfor %}
+      {% else %}      
+        <div class="bg-white p-4 rounded">
+          <p class="">
+            Nenhum registro de amostra encontrado. Clique no botão "novo registro" para cadastrar um novo registro!
+          </p>
+        </div>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <h3 class="h6 text-muted border-bottom">Todos</h3>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% if registers %}
+          {% for register in registers %}        
+            {{ include('patterns/registerCard.html.twig') }}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+<div class="d-flex flex-column flex-shrink-0 bg-light min-vh-100" style="width: 4.5rem;">
+    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+        <li class="nav-item border-top">
+            <a href="{{ SITE_URL }}/registros" class="nav-link py-3 border-bottom rounded-0" title="Todos" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="home"></i>
+            </a>
+        </li>
+        <li>
+            <a href="{{ SITE_URL }}/registros/rascunhos" class="nav-link py-3 border-bottom rounded-0" title="Rascunhos" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="file"></i>
+            </a>
+        </li>
+        <li>
+            <a href="{{ SITE_URL }}/registros/em-curadoria" class="nav-link py-3 border-bottom rounded-0" title="Em curadoria" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="send"></i>
+            </a>
+        </li>
+        <li>
+            <a href="{{ SITE_URL }}/registros/aprovados" class="nav-link py-3 border-bottom rounded-0" title="Aprovado" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="thumbs-up"></i>
+            </a>
+        </li>
+        <li>
+            <a href="{{ SITE_URL }}/registros/rejeitados" class="nav-link py-3 border-bottom rounded-0" title="Reprovado" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="thumbs-down"></i>
+            </a>
+        </li>
+{# Revisar #}
+{% if role == 'curador' %}
+        <li>
+            <a href="{{ SITE_URL }}/curadoria" class="nav-link py-3 border-bottom rounded-0 {{curateActived}}" title="Reprovado" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="inbox"></i>
+            </a>
+        </li>
+{% endif %}
+{% if role == 'administrador' %}
+        <li>
+            <a href="{{ SITE_URL }}/usuarios" class="nav-link py-3 border-bottom rounded-0 {{adminActived}}" title="Gerenciar usuarios" data-bs-toggle="tooltip" data-bs-placement="right">
+                <i data-feather="users"></i>
+            </a>
+        </li>
+{% endif %}
+    </ul>
+</div>

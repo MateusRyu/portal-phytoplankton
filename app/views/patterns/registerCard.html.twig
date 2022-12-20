@@ -1,0 +1,79 @@
+<div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5>{{ register.title|raw }}</h5>
+            <div>
+{% for tag in register.tags %}
+
+{% set text = tag|capitalize %}
+{% if tag == 'rascunho' %}
+                    {{ include('componnents/badges/secondary.html.twig') }}
+{% endif %}
+
+{% if tag == 'aprovado' %}
+                    {{ include('componnents/badges/success.html.twig') }}
+{% endif %}
+
+{% if tag == 'rejeitado' %}
+                    {{ include('componnents/badges/danger.html.twig') }}
+{% endif %}
+
+{% if tag == 'em curadoria' %}
+                    {{ include('componnents/badges/warning.html.twig') }}
+{% endif %}
+
+{% if tag == 'compartilhado' %}
+                    {{ include('componnents/badges/info.html.twig') }}
+{% endif %}
+    
+{% endfor %}
+                <p class="card-text mt-2 border-top">
+                    {{ register.description|length > 250 ? register.description[:250]|raw ~ '...' : register.description[:250]|raw  }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="btn-group">
+
+                    {# 
+                    {% set text = 'ver'|capitalize %}
+                    {% set link = SITE_URL ~ '/registros/' ~ register.id ~ '/exibir'%}
+                        {{ include('componnents/buttons/linkSecondary.html.twig') }} 
+                    #}
+
+                    {% set text = 'editar'|raw|capitalize %}
+                    {% set link = SITE_URL ~ '/registros/' ~ register.id ~ '/editar' %}
+                        {{ include('componnents/buttons/linkSecondary.html.twig') }}
+
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete{{ register.id }}">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container w-100 mt-2 border-top">
+                {% if register.edit %}
+                    <small class="text-muted">Modificado em: {{ register.edit }}</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmDelete{{ register.id }}" tabindex="-1" aria-labelledby="confirmDelete{{ register.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Atenção!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Você realmente deseja excluir o registro "<strong>{{ register.title|raw }}</strong>"? Após confirmar, a ação não poderá ser desfeita.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+{% set text = 'Excluir' %}
+{% set link = SITE_URL ~ '/registros/' ~ register.id ~ '/excluir'%}
+        {{ include('componnents/buttons/linkDanger.html.twig') }}
+      </div>
+    </div>
+  </div>
+</div>

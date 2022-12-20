@@ -1,0 +1,86 @@
+{% extends "templates/registrationForm.html.twig" %}
+
+{% set title = 'Cadastro de ocorrência'|capitalize %}
+
+{% block main %}
+<div class="pb-2 mb-3 border-bottom">
+  <h1 id="registro-de-coletas" class="h2">Registro de coleta</h1>
+</div>
+{% if alert %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ alert }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endif %}
+<ul class="nav nav-tabs ">
+  <li class="nav-item mx-1">
+    <a role="button" id="tabGeral" class="nav-link" href="{{ SITE_URL }}/registros/{{ id }}/editar">Geral</a>
+  </li>
+  <li class="nav-item mx-1">
+    <a role="button" id="tabColetas" class="nav-link active" href="#registro-de-coletas" aria-current="page">Coletas</a>
+  </li>
+</ul>
+
+<div id="navSection" class="nav nav-tabs pt-2 mb-0 bg-white">
+  <li class="nav-item mx-1">
+    <a id="nav-col" class="nav-link" href="{{ SITE_URL }}/registros/{{ id }}/amostras">Todas as coletas salvas</a>
+  </li>
+  <li class="nav-item mx-1" onclick='swapTab("man")'>
+    <a id="nav-man" href="#" class="nav-link active" aria-current="page">Novo cadastro (manual)</a>
+  </li>
+  <li class="nav-item mx-1" onclick='swapTab("auto")'>
+    <a id="nav-auto" href="{{ SITE_URL }}/registros/{{ id }}/amostra/cadastro-automatico" class="nav-link">Novo cadastro (automatizado)</a>
+  </li>
+</div>
+<div class="col pt-2 mt-0 bg-whites">
+  <div id="tab-man" class="py-2 bg-white p-4">
+
+{% if sample %}
+{% set action = SITE_URL ~ '/amostra/' ~ sample.id ~ '/atualizar' %}
+{% else %}
+{% set action = SITE_URL ~ '/registros/' ~ id ~ '/adicionar-amostra/manual' %}
+{% endif %}
+
+  <form id="manualForm" action="{{ action }}" method="post" enctype="multipart/form-data" class="row needs-validation">
+    {{ include('form/sample/basic.html.twig') }}
+    <hr>
+    {{ include('form/sample/manual.html.twig') }}
+  </form>
+{% if sample %}
+{% set modalId = 'updateCover' %}
+{% set modalTitle = 'Alterar imagem do local'|capitalize %}
+{% set src = SITE_URL ~ sample.coverPath %}
+{% set href = SITE_URL ~ '/amostra/' ~ sample.id ~ '/atualizar-capa' %}
+  {{ include('patterns/updateImageModal.html.twig') }}
+
+{% set modalId = 'deleteCover' %}
+{% set modalTitle = 'Excluir imagem do local'|capitalize %}
+{% set href = SITE_URL ~ '/amostra/' ~ sample.id ~ '/deletar-capa' %}
+  {{ include('patterns/deleteImageModal.html.twig') }}
+
+{% for taxon in sample.fitoplancton %}
+{% if taxon.image %}
+
+{% set modalId = 'updateImage_' ~ taxon.id %}
+{% set modalTitle = 'Alterar imagem do táxon'|capitalize %}
+{% set src = taxon.image %}
+{% set href = SITE_URL ~ '/amostra/' ~ sample.id ~ '/atualizar-imagem/' ~ taxon.id %}
+  
+  {{ include('patterns/updateImageModal.html.twig') }}
+
+{% set modalId = 'deleteImage_' ~ taxon.id %}
+{% set modalTitle = 'Excluir imagem do táxon'|capitalize %}
+{% set href = SITE_URL ~ '/amostra/' ~ sample.id ~ '/deletar-imagem/' ~ taxon.id %}
+  {{ include('patterns/deleteImageModal.html.twig') }}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ SITE_URL }}/js/sampleForm.js"></script>
+{% endblock %}

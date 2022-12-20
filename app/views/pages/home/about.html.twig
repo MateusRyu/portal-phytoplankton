@@ -1,0 +1,81 @@
+{% extends "templates/default.html.twig" %}
+
+{% set title = 'Sobre a plataforma' %}
+{% set aboutActivated = 'actived' %}
+
+{% block content %}
+    <div class="conatiner">
+        <article class="mx-5 py-4 px-3 bg-light">
+            <h1>Sobre o site</h1>
+            <p>
+                 O site "{{ SITE_NAME }}" é uma plataforma web fruto do Trabalho de Conclusão de Curso 
+                (TCC) do aluno Mateus Ryu Yamaguchi, apresentado ao 
+                <a target="_blank" rel="noopener" href="https://www.unifesp.br/campus/san7/instituto-do-mar/departamentos/ciencias-do-mar">
+                Departamento de Ciências do mar</a> da Universidade
+                Federal de São Paulo (UNIFESP) como requisito parcial para obtenção do 
+                título de Bacharel ao curso de 
+                <a target="_blank" rel="noopener" href="https://www.unifesp.br/campus/san7/graduacao/cursos/bacharelado-interdisciplinar-em-ciencia-e-tecnologia-do-mar">
+                Bacharelado Interdisciplinar em Ciências e Tecnologia 
+                do Mar (BICT-mar) </a>, com orientação do Prof. Dr. 
+                André Luiz Vizine Pereira e coorientação do Prof. Dr. José 
+                Juan Barrera Alba. A plataforma é um software de código aberto e livre, 
+                sendo disponibilizado no <a target="_blank" rel="noopener" href="https://github.com/Mateus-Ryu/portal-phytoplankton">
+                GitHub</a>
+            </p>
+            <p>
+                A plataforma tem como proposito, a gestão de 
+                fitoplâncton com dados georreferênciados, com foco no litoral 
+                brasileiro. Os dados disponipilizados pela plataforma podem 
+                ser visualizados e utilizados de forma livre e gratuida. 
+                Qualquer pessoa pode contribuir com novos dados ao se 
+                <a  href="{{ BASE_URL }}/criar-conta">cadastrar no site</a> 
+                ou <a href="{{ BASE_URL }}/login">entrar</a> 
+                (caso já tenha se cadastrado anteriormente). Lembrando que 
+                cabe ao usuário, que envia os dados, decidir se os dados 
+                possuem permissão legal para ser divulgado.
+            </p>
+            <hr>
+            <h2 class="h3">Cadastro de usuário</h2>
+            <p>
+                Ao se cadastrar na plataforma, o usuário precisa informar 
+                um nome (pode ser da pessoa ou da entidade), um endereço de 
+                e-mail e uma senha que serão armazenados no banco de dados. O 
+                nome servirá apenas para identificação do usuário na 
+                plataforma, para que o sistema possa personalizar a página 
+                durante o seu uso e para facilitar a comunicação com a 
+                curadoria e a administração. O endereço de e-mail será usado 
+                como forma de se autenticar na plataforma e não será usado 
+                para enviar publicidade. A senha é armazenada de forma segura 
+                e criptografada, assim apenas o usuário tem conhecimento da senha.
+            </p>
+            <hr>
+            <h2 class="h3">Cadastro de dados</h2>
+            <p>
+                Ao cadastrar novos dados, deve seguir a seguinte organização: 
+                cada novo registro representa um conjunto de coletas (seja em 
+                tempo ou locais diferentes), na qual cada coleta será 
+                representado no mapa por um marcador. Um registro vai guardar 
+                dados de como foram realizados as coletas e pode ser 
+                acompanhado de uma referência para acessar a fonte dos dados 
+                (um site, contato ou fonte bibliográfica), sendo que os dados 
+                podem ser fruto de um de estudo, monitoramento ou pesquisa. 
+                Cada coleta representa os dados obtidos em um local e data 
+                específico, tendo, obrigatóriamente, dados quantitativos de 
+                fitoplanctôn e, opcionalmente, dados auxiliares (como variavéis 
+                físicos, químicos ou biológicos).                
+            </p>
+            <p>
+                Após o usuário cadastrar as coletas, ele pode envia-los para 
+                a curadoria para que ele possa ser aprovado e disponibilizado
+                publicamente pela plataforma. Dados incoerentes ou inaprópriados 
+                para com a finalidade da plataforma serão rejeitados e pode 
+                resultar no bloqueio da conta do usuário em caso de uso com má fé.
+            </p>
+        </article>
+        {{ include('componnents/footer/home.html.twig') }}
+    </div>
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+{% endblock %}

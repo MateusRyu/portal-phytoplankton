@@ -1,0 +1,26 @@
+{% extends "templates/default.html.twig" %}
+
+{% set title = 'Sessão expirada' %}
+
+{% block content %}
+    <div class="card mx-auto mt-4 mb-4" style="width: 40vw;">
+      <div class="card-header">
+        Erro de sessão.
+      </div>
+      <div class="card-body">
+        <span class="card-text">
+          <p>
+            A sua sessão de conexão com o site não foi encontrado. 
+            Talvez você esteja tentando acessar àreas restristas 
+            sem realizar o login ou talvez tenha passado muito tempo
+            após ter realizado o login. 
+          </p>
+          <p>
+              Por favor, realize o login novamente ou volte à página inicial.
+          </p>
+        </span>
+        <a href="{{ SITE_URL }}/" class="btn btn-primary">Página inicial</a>
+        <a href="{{ SITE_URL }}/login" class="btn btn-primary">Login</a>
+      </div>
+    </div>
+{% endblock %}

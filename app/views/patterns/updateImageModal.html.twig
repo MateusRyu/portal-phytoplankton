@@ -1,0 +1,27 @@
+<div class="modal fade" id="{{ modalId }}" tabindex="-1" aria-labelledby="{{ modalId }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="{{ modalId }}Label">
+                {{ modalTitle|raw }}
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <figure class="figure">
+                <img src="{{ src }}" class="figure-img img-fluid rounded" alt="Imagem atual.">
+                <figcaption class="figure-caption">Imagem atual.</figcaption>
+            </figure>
+            <form action="{{ href }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="fotoLocal" name="image" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" value="{{id}}" name="registerId" class="btn btn-primary">Salvar imagem</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

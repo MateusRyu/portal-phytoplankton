@@ -1,0 +1,73 @@
+<div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5>{{ sample.name|raw }}</h5>
+            <div>
+{% set text = sample.status %}
+{% if text == 'rascunho' %}
+                {{ include('componnents/badges/secondary.html.twig') }}
+{% endif %}
+
+{% if text == 'aprovado' %}
+                {{ include('componnents/badges/success.html.twig') }}
+{% endif %}
+
+{% if text == 'rejeitado' %}
+                <div class="alert alert-warning" role="alert">
+                    {{ sample.note }}
+                </div>
+                {{ include('componnents/badges/danger.html.twig') }}
+{% endif %}
+
+{% if text == 'em curadoria' %}
+                    {{ include('componnents/badges/warning.html.twig') }}
+{% endif %}
+
+{% if text == 'compartilhado' %}
+                    {{ include('componnents/badges/info.html.twig') }}
+{% endif %}
+
+            </div>
+            <p class="card-text">
+                Cidade: {{ sample.city|raw }}
+                <br>
+                Latitude: {{ sample.latitude|raw }}
+                <br>
+                Longitude: {{ sample.longitude|raw }}
+                <br>
+                Profundidade: {{ sample.depth|raw }} metros
+                <br>
+                Coletado às {{ sample.colectedAt|raw }}
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+{% set text = 'excluir'|capitalize %}
+{% set link = SITE_URL ~ '/registros/' ~ id ~ '/amostra/'~ sample.id ~'/excluir'%}
+                    {{ include('componnents/buttons/linkDanger.html.twig') }}
+
+{% set text = 'editar'|capitalize %}
+{% set link = SITE_URL ~ '/registros/' ~ id ~ '/amostra/'~ sample.id ~ '/editar' %}
+                    {{ include('componnents/buttons/linkSecondary.html.twig') }}
+
+{% if sample.status == 'rascunho' %}
+
+{% set link =  SITE_URL ~ '/registros/' ~ id ~ '/amostra/'~ sample.id ~ '/enviar-para-curadoria' %}
+
+{% else %}
+
+{% set link = '#' %}
+{% set disable = 'disabled' %}
+
+{% endif %}
+
+                    <a href="{{ link }}" class="btn btn-sm btn-outline-primary {{ disable }}">
+                        Enviar para curadoria
+                    </a>
+                </div>
+            </div>
+            <small class="text-muted">
+                Última edição: {{ sample.editedAt }}
+            </small>
+        </div>
+    </div>
+</div>

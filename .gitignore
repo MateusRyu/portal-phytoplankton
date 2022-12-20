@@ -1,0 +1,8 @@
+/vendor/*
+/.env
+
+/var/cache/cache/template/*
+!/var/cache/cache/template/empty
+/var/log/*
+!/var/log/empty
+/public/img/uploads/*

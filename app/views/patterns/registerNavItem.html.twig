@@ -1,0 +1,18 @@
+<li class="nav-item ml-2">
+
+{% if registerNav.active %}
+    {% set class = "nav-link d-flex justify-content-between  d-flex justify-content-between active" %}
+    <a class="{{ class }}" href="#">
+{% else %}
+    {% set class = "nav-link d-flex justify-content-between text-dark fw-lighter d-flex justify-content-between" %}
+    <a class="{{ class }}" href="{{ SITE_URL }}/registros/{{ registerNav.link }}">
+{% endif %}
+        <div>
+            <i data-feather="{{ registerNav.icon }}"></i>
+            &nbsp;&nbsp;{{ registerNav.text | capitalize}}
+        </div>
+        <span class="badge badge rounded-pill text-bg-primary">
+            {{ registerNav.number | default(0) }}
+        </span>
+    </a>
+</li>  

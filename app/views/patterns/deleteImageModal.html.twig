@@ -1,0 +1,23 @@
+<div class="modal fade" id="{{ modalId }}" tabindex="-1" aria-labelledby="{{ modalId }}" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="{{modalId}}Label">{{ modalTitle }}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Realmente deseja excluir a imagem? A ação não poderá ser desfeita após realizada. 
+                A página será recarregada caso confirme a exclusão.
+            </p>
+            <img src="{{src}}" class="img-thumbnail" alt="Imagem que será excluida.">
+        </div>
+        <div class="modal-footer">
+            <form action="{{ href }}" method="post" >
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-danger">Excluir imagem</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>

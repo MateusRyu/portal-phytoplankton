@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        {% include('componnents/head/home.html.twig') %}
+        <title>
+          {% block title %}
+            {{ title|capitalize }} - {{ SITE_NAME }}
+          {% endblock %}
+        </title>
+    </head>
+    <body>
+      {% set minimal = true %}
+      {% include('componnents/header/home.html.twig') %}
+      <main id="content">{% block content %}{% endblock %}</main>
+      {% include('componnents/footer/home.html.twig') %}
+    </body>
+</html>

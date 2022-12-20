@@ -1,0 +1,10 @@
+{% extends "templates/base.html.twig" %}
+{% block content %}
+    <section class="card border-secundary mb-3 mt-4" style="max-width: 80vw; margin: auto;">
+    <h3 class="card-header">Parabéns!</h3>
+    <div class="card-body">
+        <h2 class="card-title">{{title}}</h2>
+        <p class="card-text">{{ message|raw }}</p>
+    </div>
+</section>
+{% endblock %}

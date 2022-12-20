@@ -1,0 +1,68 @@
+<h4 class="mb-3">Dados básicos</h4>
+<div class="col-sm-12 mb-2">
+    <label for="nomeLocal" class="form-label">Nome (opcional)</label>
+    <input type="text" class="form-control" name="nameSample" id="nameSample" placeholder="Nome da região ou do ponto especifico. Ex: Baía Ilha Grande - ponto A" value="{{ sample.name }}" maxlength="50">
+</div>        
+<div class="col-sm-12 my-2">
+    <p class="h6">Coordenadas</p>
+    <div class="input-group mb-2">
+        <span class="input-group-text">Latitude</span>
+        <input type="number" class="form-control" name="latitude" id="latitude" placeholder="Latitude" aria-label="Latitude" value="{{ sample.latitude }}" max=90 min=-90 step="0.000001" onkeyup="addGeoData()" required>
+        <span class="input-group-text">Longitude</span>
+        <input type="number" class="form-control" name="longitude" id="longitude" placeholder="Longitude" aria-label="Longitude" value="{{ sample.longitude }}" max=180 min=-180 step="0.000001" onkeyup="addGeoData()" required>
+    </div>
+</div>
+<div class="col-sm-12 my-2">
+    <label for="city" class="form-label">Cidade</label>
+    <input type="text" class="form-control" id="city" name="city" value="{{ sample.city|default("Não definido")|raw }}" maxlength="50" required>
+</div>
+<div class="col-sm-12 my-2">
+    <label for="state" class="form-label">Estado</label>
+    <input type="text" class="form-control" id="state" name="state" value="{{ sample.state|default("Não definido")|raw }}" maxlength="50" required>
+</div>
+<div class="col-sm-12 my-2">
+    <label for="country" class="form-label">País</label>
+    <input type="text" class="form-control" id="country" name="country" value="{{ sample.country|default("Não definido")|raw }}" maxlength="50" required>
+</div>
+<div class="col-sm-12 my-2">
+    <label for="profunfidade" class="form-label">Profundidade (metros)</label>
+    <input type="number" class="form-control" id="profunfidade" name="profunfidade" value="{{ sample.depth }}" min=0 max=99999.99 step="0.01" required>
+</div>
+<div class="col-sm-12 my-2">
+    <label for="data"  class="form-label">Momento da coleta</label>
+    <input class="form-control" id="data" type="datetime-local" name="data" value="{{ sample.colectedAt }}" required />
+</div>
+
+<div class="col-sm-12 my-2">
+    <p class="h6">Fotos do local (opcional)</p>  
+{% if sample.coverPath %}
+    <div class="d-flex justify-content-start">
+        <div class="position-relative">
+            <img src="{{ SITE_URL }}{{ sample.coverPath }}" class="mx-auto" alt="Foto do local" height="450px" width="600px">
+            <div class="position-absolute top-0 end-0 btn-group">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Opções 
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li>
+                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateCover">
+                            Alterar
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteCover">
+                            Excluir
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="input-group mb-3">
+        <input type="file" class="form-control" id="fotoLocal" name="fotoLocal" accept="image/*" onchange="validateSize(this, 5)">
+    </div>
+{% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>

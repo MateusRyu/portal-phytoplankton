@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta http-equiv="refresh" content="{{ timer|default('0') }}; URL={{ SITE_URL }}/{{ url }}" />
+        <title>
+            {{ title|capitalize }}{% if title == false %} - {% endif %}{{ SITE_NAME }}
+        </title>
+    </head>
+    <body>
+    </body>
+
+    <script>
+        var timer = {{ timer|default('0')}};
+        var x = setInterval(function() {
+            document.getElementById("timer").innerHTML = timer;
+            timer--;
+        }, 1000);
+    </script>
+</html>

@@ -1,0 +1,44 @@
+{
+  "1":{
+    "longitude": -4.35247,
+    "latitude": 50.84673,
+    "iconFile": "green.svg",
+    "name": "Amostra 21354767",
+    "register": "Monitoramento da Praia A",
+    "cover": "https://lh5.googleusercontent.com/p/AF1QipPCtA140c_aISk6_ucuHipRKLe05igp7SCUXB8g=w408-h305-k-no",
+    "city": "Mongaguá",
+    "state": "São Paulo",
+    "depth": 10,
+    "measure": "g/mL",
+    "fitoplancton": [
+      ["Dinoflagelata", 132],
+      ["Cianobacteria", 234]
+    ],
+    "context": [
+      ["pH", 7, false],
+      ["Salinidade da água", 35.5, "g/Kg"]
+    ],
+    "colectedAt": "02/12/2022, 09:35:26",
+    "lastUpdate": "02/12/2022, 18:35:26"
+  },
+  "2":{
+    "longitude": 4.35247,
+    "latitude": -50.84673,
+    "iconFile": "green.svg",
+    "name": "Amostra 21354767",
+    "register": "Monitoramento da Praia A",
+    "cover": false,
+    "city": "Mongaguá",
+    "state": "São Paulo",
+    "depth": 10,
+    "measure": "g/mL",
+    "fitoplancton": [
+      ["Dinoflagelata", 132]
+    ],
+    "context": [
+      ["Salinidade da água", 35.5, "g/Kg"]
+    ],
+    "colectedAt": "02/12/2022, 09:35:26",
+    "lastUpdate": "02/12/2022, 18:35:26"
+  }
+}

@@ -1,0 +1,98 @@
+{% extends "templates/registrationForm.html.twig" %}
+
+{% set title = 'Configurar conta'|capitalize %}
+
+{% set loginActivated = 'actived' %}
+
+{% block head %}
+<script type="text/javascript" src="{{SITE_URL}}/js/confirmPassword.js"></script>
+{% endblock %}
+
+{% block main %}
+<article class="card border-secundary mb-3 mt-4 mx-auto col-5">
+    <h1 class="card-header h4">Atualizar dados da conta</h1>
+    <section class="card-body">
+        {% if alert == 'email already exist' %}
+            <div class="alert alert-danger alert-dismissible fade show"  role="alert">
+                <span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    E-mail já está sendo usado!
+                </span>
+            </div>
+        {% endif %}
+        <form action="{{ SITE_URL }}/usuario/atualizar" method="post">
+            <div class="d-none">
+                <label for="username" class="form-label">id</label>
+                <input type="text" name='id' autocomplete="name" value="{{ user.id_usuario }}" readonly>
+            </div>
+            <div class="mt-2">
+                <label for="username" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="username" name='username' placeholder="Seu Nome Completo" autocomplete="name" maxlength="50" value="{{ user.nome_usuario }}" required>
+            </div>
+            <div class="mt-2">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" name='email' placeholder="seu.email@gmail.com" autocomplete="username" maxlength="255" value="{{ user.email }}" required>
+            </div>
+            <div class="mt-2">
+                <label for="password" class="form-label">
+                    Nova senha 
+                    <button type="button" class="btn btn-sm px-1 py-0 btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    ?
+                    </button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Senha</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                A senha pode ser formada por qualquer tipo de caracteres (letras, números ou símbolos). 
+                                A única limitação é que a senha deve ser longa ou complexa o suficiente para ser considerada 
+                                segura. Apesar de não ser recomendado, a plataforma não te impede de usar dados pessoais 
+                                (como nome, idade, e-mail, etc) na senha ou utilizar senhas comuns (tais como "felicidade",
+                                "minhasenha", "senha123", "123mudar"). Cabe ao usuário decidir uma senha adequada para não 
+                                ter a conta roubada. É recomendado que use uma senha aleatória e única para acessar esta conta.
+                            </p>
+                            <p>
+                                A força da senha é calculado com base no tempo em que uma máquina levaria para acertar 
+                                a senha através de <a target="_blank" href="https://pt.wikipedia.org/wiki/Ataque_de_for%C3%A7a_bruta">força bruta</a>. 
+                                Cada classificação leva em conta o investimento no equipamento do atacante, no tempo gasto e considerando 
+                                que o atacante tem acesso direto à sua senha, assim como listado em baixo:
+                            </p>
+                            <ul>
+                                <li><strong>Senha vulnerável:</strong> Menos de 6 meses com equipamento lento<li>
+                                <li><strong>Senha fraco:</strong> Menos de 12 meses com equipamento lento<li>
+                                <li><strong>Senha mediana:</strong> Menos de 1 meses com equipamento rápido<li>
+                                <li><strong>Senha boa:</strong> Menos de 3 meses com equipamento rápido<li>
+                                <li><strong>Senha ótima:</strong> Menos de 6 meses com equipamento rápido<li>
+                                <li><strong>Senha segura:</strong> Menos de 12 meses com equipamento rápido<li>
+                                <li><strong>Senha bem segura:</strong> Mais de 12 meses com equipamento rápido<li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </label>
+                <input type="password" class="form-control" id="password"  name='password' placeholder="Insira a sua senha" autocomplete="current-password" maxlength="255" required>
+            </div>
+            <div class="mt-2">
+                <label for="confirmPassword" class="form-label">Confirme sua senha</label>
+                <input type="password" class="form-control" id="confirmPassword" name='confirmPassword' placeholder="Digite a sua senha novamente" autocomplete="new-password" maxlength="255" required>
+            </div>
+            <small id="message">Força da senha</small>
+            <div class="progress" style="height:18px;margin:5px;">
+                <div id="passwordBar"class="progress-bar"></div>
+            </div>
+            
+            <hr>
+            <input id="submit" class="btn btn-primary" type="submit" value="Enviar">
+        </form>        
+    </section>
+</article>
+{% endblock %}

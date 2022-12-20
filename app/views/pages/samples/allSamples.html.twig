@@ -1,0 +1,74 @@
+{% extends "templates/registrationForm.html.twig" %}
+
+{% set title = 'Cadastro de ocorrência'|capitalize %}
+
+{% block main %}
+<div class="pb-2 mb-3 border-bottom">
+  <h1 id="registro-de-coletas" class="h2">Registro de coleta</h1>
+</div>
+{% if alert %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ alert }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endif %}
+<ul class="nav nav-tabs ">
+  <li class="nav-item mx-1">
+    <a role="button" id="tabGeral" class="nav-link" href="{{ SITE_URL }}/registros/{{ id }}/editar">Geral</a>
+  </li>
+  <li class="nav-item mx-1">
+    <a role="button" id="tabColetas" class="nav-link active" href="#registro-de-coletas" aria-current="page">Coletas</a>
+  </li>
+</ul>
+
+<div id="navSection" class="nav nav-tabs pt-2 mb-0 bg-white">
+  <li class="nav-item mx-1">
+    <a id="nav-col" class="nav-link active" aria-current="page" href="#" onclick='swapTab("col")'>Todas as coletas salvas</a>
+  </li>
+  <li class="nav-item mx-1" onclick='swapTab("man")'>
+    <a id="nav-man" href="{{ SITE_URL }}/registros/{{ id }}/amostra/cadastro-manual" class="nav-link">Novo cadastro (manual)</a>
+  </li>
+  <li class="nav-item mx-1" onclick='swapTab("auto")'>
+    <a id="nav-auto" href="{{ SITE_URL }}/registros/{{ id }}/amostra/cadastro-automatico" class="nav-link">Novo cadastro (automatizado)</a>
+  </li>
+</div>
+<div class="col pt-2 mt-0 bg-whites">
+  <div id="tab-coletas" class="py-2 p-4">
+    <div class="alert alert-info" role="alert">
+      Cada coleta corresponde à uma coordenada e/ou momento diferente
+    </div>
+    <div class="album my-2 py-2 bg-light">
+      <div class="container">
+        <div class="row">
+{% if samples %}
+{% for sample in samples %}        
+          {{ include('patterns/sampleCard.html.twig') }}
+{% endfor %}
+{% else %}
+          <div class="bg-white rounded">
+            <p class="">
+              Nenhuma coleta registrada. Clique em "Novo cadastro (manual)"  ou 
+              "Novo cadastro (automatizado)" para cadastrar uma nova coleta.
+            </p>
+            <p>
+              A diferença entre o cadastro manual e o automatizado é que o primeiro
+              requer o preenchimento dos campos (tais como localização da coleta e 
+              cada taxon encontrado) um à um manualmente, enquanto que no modo automatizado
+              apenas requer o envio de um arquivo de planilha já com os dados.
+            </p>
+          </div>
+{% endif %}
+        </div>
+      </div>
+    </div>
+    <a href="{{ SITE_URL }}/{{ id }}/editar" class="btn btn-secondary btn-lg" type="submit">Cancelar e voltar</a>
+    <a href="{{ SITE_URL }}/registros/{{ id }}/enviar-para-curadoria" class="btn btn-primary btn-lg" type="submit">Enviar as coletas salvas para curadoria</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ SITE_URL }}/js/swapTabFormSample.js"></script>
+<script src="{{ SITE_URL }}/js/sampleForm.js"></script>
+{% endblock %}

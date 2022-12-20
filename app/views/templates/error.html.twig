@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        {% include('componnents/head/home.html.twig') %}
+        <title>
+          {% block title %}
+            {{ title|capitalize }} - {{ SITE_NAME }}
+          {% endblock %}
+        </title>
+    </head>
+    <body>
+      {% set minimal = true %}
+      {% include 'componnents/header/home.html.twig' %}
+      <main id="content">
+        <section class="alert bg-warning text-white m-5">
+          <h4 class="alert-heading">Oops, encontramos um problema!</h4>
+          <p class="card-text">{{message}}</p>
+        </section>
+      </main>
+      {% include 'componnents/footer/home.html.twig' %}
+    </body>
+</html>
